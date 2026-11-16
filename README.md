@@ -124,7 +124,7 @@ oisblocca-workstation-lock/
 
 ### Opzione A — Installazione guidata con setup (consigliata)
 
-1. scarica [`OISblocca_Setup.exe`]([release/OISblocca_Setup.exe](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)) dalla cartella `release/` o dalla sezione releases di GitHub
+1. scarica [`OISblocca_Setup.exe`]([release/OISblocca_Setup.exe](releases/tag/2.0)) dalla cartella `release/` o dalla sezione releases di GitHub
 2. avvia l'installer: installerà automaticamente l'applicazione nella directory predefinita `C:\Program Files\OISblocca`
 3. la procedura guidata provvede a:
    * copiare l'eseguibile e creare il modulo di disinstallazione (`Uninstall.exe`);
@@ -134,7 +134,7 @@ oisblocca-workstation-lock/
 
 ### Opzione B — Eseguibile portatile autonomo
 
-1. scarica l'eseguibile portatile [`OISblocca.exe`]([release/OISblocca.exe](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0))
+1. scarica l'eseguibile portatile [`OISblocca.exe`](releases/tag/2.0)
 2. avvia il file come amministratore (tasto destro ➔ *Esegui come amministratore*)
 3. l'applicazione si posizionerà nell'area di notifica con l'icona a scudo
 
@@ -321,7 +321,7 @@ the objective is to ensure contest fairness by verifying that students can only 
 
 ### Option A — Setup wizard installation (recommended)
 
-1. download [`OISblocca_Setup.exe`]([release/OISblocca_Setup.exe](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)) from the `release/` folder or GitHub releases
+1. download [`OISblocca_Setup.exe`]([release/OISblocca_Setup.exe](releases/tag/2.0)) from the `release/` folder or GitHub releases
 2. run the setup: it installs the application into `C:\Program Files\OISblocca`
 3. the wizard:
    * copies the executable and creates the uninstaller (`Uninstall.exe`);
@@ -331,7 +331,7 @@ the objective is to ensure contest fairness by verifying that students can only 
 
 ### Option B — Portable standalone executable
 
-1. download [`OISblocca.exe`]([release/OISblocca.exe](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0))
+1. download [`OISblocca.exe`]([release/OISblocca.exe](releases/tag/2.0))
 2. run the executable as administrator (right-click ➔ *Run as administrator*)
 3. the shield icon will appear in the system tray
 
