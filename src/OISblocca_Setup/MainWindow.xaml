@@ -1,0 +1,242 @@
+<Window x:Class="OISblocca_Setup.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Installazione di OISblocca v2.0"
+        Height="500" Width="640"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#0c1929"
+        Foreground="#f8fafc"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <!-- Modern Button Style -->
+        <Style x:Key="ModernBtn" TargetType="Button">
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="MinWidth" Value="95"/>
+            <Setter Property="Padding" Value="14,0"/>
+            <Setter Property="Foreground" Value="#ffffff"/>
+            <Setter Property="Background" Value="#0284c7"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#0369a1"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#075985"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#1e324d"/>
+                                <Setter Property="Foreground" Value="#64748b"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SecondaryBtn" TargetType="Button" BasedOn="{StaticResource ModernBtn}">
+            <Setter Property="Background" Value="#1f385c"/>
+            <Setter Property="Foreground" Value="#e2e8f0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6" BorderBrush="#2e4d7a" BorderThickness="1">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#294770"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#162942"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="border" Property="Background" Value="#132338"/>
+                                <Setter Property="Foreground" Value="#475569"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- CheckBox Style -->
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="#e2e8f0"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="0,6"/>
+        </Style>
+
+        <!-- TextBox Style -->
+        <Style TargetType="TextBox">
+            <Setter Property="Background" Value="#13263d"/>
+            <Setter Property="Foreground" Value="#f8fafc"/>
+            <Setter Property="BorderBrush" Value="#294770"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <!-- Top Header Banner -->
+        <Border Grid.Row="0" Background="#13263d" BorderBrush="#1f385c" BorderThickness="0,0,0,1" Padding="24,0">
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Shield Icon -->
+                <Viewbox Grid.Column="0" Width="36" Height="36" Margin="0,0,16,0">
+                    <Canvas Width="24" Height="24">
+                        <Path Fill="#38bdf8" Data="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/>
+                    </Canvas>
+                </Viewbox>
+
+                <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                    <TextBlock x:Name="lblBannerTitle" Text="installazione guidata di OISblocca" FontSize="16" FontWeight="SemiBold" Foreground="#f8fafc"/>
+                    <TextBlock x:Name="lblBannerSub" Text="protezione e gestione postazione gara OIS" FontSize="12" Foreground="#94a3b8" Margin="0,2,0,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Middle Content Area (Pages) -->
+        <Grid Grid.Row="1" Margin="32,24">
+            
+            <!-- PAGE 0: BENVENUTO (INSTALLER) -->
+            <StackPanel x:Name="pnlWelcome" Visibility="Visible" VerticalAlignment="Top">
+                <TextBlock Text="benvenuto nella procedura di installazione" FontSize="18" FontWeight="SemiBold" Foreground="#38bdf8" Margin="0,0,0,16"/>
+                <TextBlock TextWrapping="Wrap" LineHeight="22" FontSize="13" Foreground="#cbd5e1" Margin="0,0,0,14">
+                    questo programma installerà OISblocca v2.0 sul tuo computer.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" LineHeight="22" FontSize="13" Foreground="#cbd5e1" Margin="0,0,0,14">
+                    OISblocca consente di isolare in sicurezza la navigazione internet durante le gare delle olimpiadi di informatica a squadre, autorizzando solo ed esclusivamente i siti web e le piattaforme consentite dal regolamento.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" LineHeight="22" FontSize="13" Foreground="#94a3b8" Margin="0,10,0,0">
+                    per procedere con l'installazione, fai clic su «avanti».
+                </TextBlock>
+            </StackPanel>
+
+            <!-- PAGE 1: SCELTA CARTELLA -->
+            <StackPanel x:Name="pnlDirectory" Visibility="Collapsed" VerticalAlignment="Top">
+                <TextBlock Text="cartella di destinazione" FontSize="18" FontWeight="SemiBold" Foreground="#38bdf8" Margin="0,0,0,8"/>
+                <TextBlock Text="i file del programma verranno installati nella seguente cartella di sistema:" FontSize="13" Foreground="#94a3b8" Margin="0,0,0,16"/>
+                
+                <Grid Margin="0,0,0,16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="txtInstallDir" Grid.Column="0" Text="C:\Program Files\OISblocca" IsReadOnly="True" Margin="0,0,10,0"/>
+                    <Button x:Name="btnBrowse" Grid.Column="1" Content="sfoglia..." Style="{StaticResource SecondaryBtn}" MinWidth="85" Click="BtnBrowse_Click"/>
+                </Grid>
+
+                <Border Background="#102033" CornerRadius="6" BorderBrush="#1f385c" BorderThickness="1" Padding="14,10" Margin="0,8,0,0">
+                    <StackPanel>
+                        <TextBlock Text="informazioni spazio su disco:" FontSize="12" FontWeight="SemiBold" Foreground="#e2e8f0" Margin="0,0,0,4"/>
+                        <TextBlock Text="spazio su disco richiesto: circa 75 MB" FontSize="12" Foreground="#94a3b8"/>
+                        <TextBlock x:Name="lblFreeSpace" Text="spazio disponibile sul disco: rilevamento in corso..." FontSize="12" Foreground="#38bdf8" Margin="0,2,0,0"/>
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+
+            <!-- PAGE 2: OPZIONI AGGIUNTIVE -->
+            <StackPanel x:Name="pnlOptions" Visibility="Collapsed" VerticalAlignment="Top">
+                <TextBlock Text="opzioni aggiuntive" FontSize="18" FontWeight="SemiBold" Foreground="#38bdf8" Margin="0,0,0,8"/>
+                <TextBlock Text="seleziona le attività accessorie da eseguire durante l'installazione:" FontSize="13" Foreground="#94a3b8" Margin="0,0,0,16"/>
+
+                <Border Background="#102033" CornerRadius="6" BorderBrush="#1f385c" BorderThickness="1" Padding="16,12">
+                    <StackPanel>
+                        <CheckBox x:Name="chkStartMenu" Content="crea collegamento nel menu start di windows" IsChecked="True"/>
+                        <CheckBox x:Name="chkDesktop" Content="crea icona di avvio rapido sul desktop" IsChecked="True"/>
+                        <CheckBox x:Name="chkAutoStartup" Content="avvia automaticamente OISblocca all'accesso al computer (tray)" IsChecked="True"/>
+                    </StackPanel>
+                </Border>
+
+                <TextBlock TextWrapping="Wrap" LineHeight="20" FontSize="12" Foreground="#64748b" Margin="4,16,0,0">
+                    nota: l'avvio automatico consente alla postazione di rimanere protetta e pronta fin dall'avvio di windows.
+                </TextBlock>
+            </StackPanel>
+
+            <!-- PAGE 3: PROGRESSO INSTALLAZIONE -->
+            <StackPanel x:Name="pnlProgress" Visibility="Collapsed" VerticalAlignment="Center">
+                <TextBlock x:Name="lblProgressTitle" Text="installazione in corso..." FontSize="18" FontWeight="SemiBold" Foreground="#38bdf8" Margin="0,0,0,12"/>
+                <TextBlock x:Name="lblProgressStatus" Text="estrazione dei file in corso..." FontSize="13" Foreground="#cbd5e1" Margin="0,0,0,16"/>
+                
+                <ProgressBar x:Name="pbProgress" Height="14" Value="0" Maximum="100" Background="#13263d" Foreground="#0284c7" BorderThickness="0"/>
+                <TextBlock x:Name="lblProgressPercent" Text="0%" HorizontalAlignment="Right" FontSize="12" Foreground="#94a3b8" Margin="0,8,0,0"/>
+            </StackPanel>
+
+            <!-- PAGE 4: COMPLETATO (INSTALLER) -->
+            <StackPanel x:Name="pnlFinished" Visibility="Collapsed" VerticalAlignment="Top">
+                <TextBlock Text="installazione completata" FontSize="20" FontWeight="SemiBold" Foreground="#4ade80" Margin="0,0,0,14"/>
+                <TextBlock TextWrapping="Wrap" LineHeight="22" FontSize="13" Foreground="#cbd5e1" Margin="0,0,0,16">
+                    OISblocca v2.0 è stato installato con successo sul computer.
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" LineHeight="22" FontSize="13" Foreground="#cbd5e1" Margin="0,0,0,16">
+                    l'applicazione è pronta per la gestione delle liste consentite e il blocco controllato della navigazione internet per le gare OIS.
+                </TextBlock>
+
+                <Border Background="#102033" CornerRadius="6" BorderBrush="#1f385c" BorderThickness="1" Padding="14,10" Margin="0,4,0,0">
+                    <CheckBox x:Name="chkLaunchNow" Content="avvia OISblocca adesso" IsChecked="True" Foreground="#38bdf8" FontWeight="SemiBold"/>
+                </Border>
+            </StackPanel>
+
+            <!-- UNINSTALL PAGE 0: CONFERMA -->
+            <StackPanel x:Name="pnlUninstallConfirm" Visibility="Collapsed" VerticalAlignment="Top">
+                <TextBlock Text="conferma disinstallazione" FontSize="18" FontWeight="SemiBold" Foreground="#f87171" Margin="0,0,0,14"/>
+                <TextBlock TextWrapping="Wrap" LineHeight="22" FontSize="13" Foreground="#cbd5e1" Margin="0,0,0,16">
+                    sei sicuro di voler rimuovere completamente OISblocca v2.0 e tutti i suoi componenti dal computer?
+                </TextBlock>
+                <TextBlock TextWrapping="Wrap" LineHeight="22" FontSize="12" Foreground="#94a3b8">
+                    verranno rimosse le regole del firewall create dall'applicativo, i collegamenti nel menu start e sul desktop, e l'avvio automatico con windows.
+                </TextBlock>
+            </StackPanel>
+
+            <!-- UNINSTALL PAGE FINISHED -->
+            <StackPanel x:Name="pnlUninstallFinished" Visibility="Collapsed" VerticalAlignment="Top">
+                <TextBlock Text="disinstallazione completata" FontSize="20" FontWeight="SemiBold" Foreground="#4ade80" Margin="0,0,0,14"/>
+                <TextBlock TextWrapping="Wrap" LineHeight="22" FontSize="13" Foreground="#cbd5e1" Margin="0,0,0,16">
+                    OISblocca v2.0 è stato rimosso con successo dal computer.
+                </TextBlock>
+            </StackPanel>
+
+        </Grid>
+
+        <!-- Bottom Navigation Buttons -->
+        <Border Grid.Row="2" Background="#102033" BorderBrush="#1f385c" BorderThickness="0,1,0,0" Padding="24,0">
+            <Grid VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="btnCancel" Grid.Column="0" Content="annulla" Style="{StaticResource SecondaryBtn}" Click="BtnCancel_Click"/>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <Button x:Name="btnBack" Content="&lt; indietro" Style="{StaticResource SecondaryBtn}" Margin="0,0,10,0" Click="BtnBack_Click"/>
+                    <Button x:Name="btnNext" Content="avanti &gt;" Style="{StaticResource ModernBtn}" Click="BtnNext_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

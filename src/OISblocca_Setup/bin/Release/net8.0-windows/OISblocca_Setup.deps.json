@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "OISblocca_Setup/2.0.0": {
+        "runtime": {
+          "OISblocca_Setup.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "OISblocca_Setup/2.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

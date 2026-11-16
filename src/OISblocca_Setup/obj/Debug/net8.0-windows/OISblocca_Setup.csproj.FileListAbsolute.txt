@@ -1,0 +1,17 @@
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\bin\Debug\net8.0-windows\OISblocca_Setup.exe
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\bin\Debug\net8.0-windows\OISblocca_Setup.deps.json
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\bin\Debug\net8.0-windows\OISblocca_Setup.runtimeconfig.json
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\bin\Debug\net8.0-windows\OISblocca_Setup.dll
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\MainWindow.baml
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\MainWindow.g.cs
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\App.g.cs
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\OISblocca_Setup_MarkupCompile.cache
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\OISblocca_Setup.g.resources
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\OISblocca_Setup.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\OISblocca_Setup.AssemblyInfoInputs.cache
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\OISblocca_Setup.AssemblyInfo.cs
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\OISblocca_Setup.csproj.CoreCompileInputs.cache
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\OISblocca_Setup.dll
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\refint\OISblocca_Setup.dll
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\OISblocca_Setup.genruntimeconfig.cache
+C:\Users\GIANNI\Documents\AntigravityProjects\ExeAnalisys\exe_repo\src\OISblocca_Setup\obj\Debug\net8.0-windows\ref\OISblocca_Setup.dll

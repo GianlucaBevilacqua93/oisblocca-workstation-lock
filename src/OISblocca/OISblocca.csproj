@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <NoWarn>CS8618;CS8632;CS4014</NoWarn>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationIcon>Assets\app.ico</ApplicationIcon>
+    <AssemblyName>OISblocca</AssemblyName>
+    <RootNamespace>OISblocca</RootNamespace>
+    <AssemblyTitle>OISblocca</AssemblyTitle>
+    <AssemblyProduct>OISblocca</AssemblyProduct>
+    <AssemblyDescription>Applicazione per Windows con avvio come servizio tray, gestione siti consentiti live e verifica connettività per gare OIS</AssemblyDescription>
+    <Authors>Prof. Quarto, Prof. Bevilacqua</Authors>
+    <Company>Olimpiadi di Informatica a Squadre (OIS)</Company>
+    <Copyright>Copyright © 2026 Prof. Quarto, Prof. Bevilacqua</Copyright>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+    <Version>2.0.0</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\app.ico" />
+    <Resource Include="Assets\app.ico" />
+  </ItemGroup>
+
+</Project>
