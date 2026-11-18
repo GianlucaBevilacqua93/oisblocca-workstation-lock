@@ -10,17 +10,29 @@ namespace OISblocca.Core
         private const string AppName = "OISblocca";
         private const string TaskName = "OISblocca";
         private const string RegistryPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
+        private const string SettingsRegistryPath = @"Software\OISblocca";
 
         public static bool IsStartingWithWindows()
         {
             try
             {
-                using var key = Registry.CurrentUser.OpenSubKey(RegistryPath, false);
-                return key?.GetValue(AppName) != null;
+                if (IsScheduledTaskConfigured())
+                {
+                    return true;
+                }
+
+                using var key = Registry.CurrentUser.OpenSubKey(SettingsRegistryPath, false);
+                if (key != null)
+                {
+                    object? val = key.GetValue("StartWithWindows");
+                    if (val is int intVal) return intVal == 1;
+                }
+
+                return ConfigManager.LoadSettings().StartWithWindows;
             }
             catch
             {
-                return false;
+                return true;
             }
         }
 
@@ -28,7 +40,7 @@ namespace OISblocca.Core
         {
             try
             {
-                // Assicura sempre la registrazione dell'avvio automatico e i corretti flag di sistema
+                // Assicura sempre la registrazione dell'avvio automatico e la bonifica di chiavi legacy
                 SetStartWithWindows(true);
             }
             catch
@@ -36,38 +48,55 @@ namespace OISblocca.Core
             }
         }
 
+        public static void RemoveFromRegistryRun()
+        {
+            try
+            {
+                using var hkcu = Registry.CurrentUser.OpenSubKey(RegistryPath, true);
+                if (hkcu?.GetValue(AppName) != null)
+                {
+                    hkcu.DeleteValue(AppName, false);
+                }
+            }
+            catch { }
+
+            try
+            {
+                using var hklm = Registry.LocalMachine.OpenSubKey(RegistryPath, true);
+                if (hklm?.GetValue(AppName) != null)
+                {
+                    hklm.DeleteValue(AppName, false);
+                }
+            }
+            catch { }
+        }
+
         public static void SetStartWithWindows(bool enable)
         {
             try
             {
                 string? exePath = Environment.ProcessPath;
-                if (string.IsNullOrEmpty(exePath)) return;
 
-                // 1. Configurazione nel Registro di Windows (HKCU\Run)
-                using (var key = Registry.CurrentUser.OpenSubKey(RegistryPath, true))
+                // 1. Bonifica della chiave Run del Registro di Windows:
+                // Le applicazioni con privilegi di amministratore NON devono risiedere in Run
+                // perché Windows Explorer richiederebbe la password di amministratore (UAC) a ogni riavvio.
+                RemoveFromRegistryRun();
+
+                // 2. Memorizza preferenza nelle impostazioni di configurazione
+                try
                 {
-                    if (key != null)
-                    {
-                        
-                        if (enable)
-                        {
-                            // Avvia con flag --tray per rimanere minimizzato all'avvio del sistema
-                            key.SetValue(AppName, $"\"{exePath}\" --tray");
-                        }
-                        else
-                        {
-                            if (key.GetValue(AppName) != null)
-                            {
-                                key.DeleteValue(AppName, false);
-                            }
-                        }
-                    }
+                    using var settingsKey = Registry.CurrentUser.CreateSubKey(SettingsRegistryPath, true);
+                    settingsKey?.SetValue("StartWithWindows", enable ? 1 : 0, RegistryValueKind.DWord);
                 }
+                catch { }
 
-                // 2. Configurazione in Windows Task Scheduler (onlogon con privilegi di amministratore /rl highest)
+                // 3. Configurazione in Windows Task Scheduler (onlogon con massimi privilegi /rl highest senza UAC)
                 if (enable)
                 {
-                    RegisterScheduledTask(exePath);
+                    if (!string.IsNullOrEmpty(exePath))
+                    {
+                        RegisterScheduledTask(exePath);
+                    }
                     PromoteTrayIcon();
                 }
                 else
@@ -144,31 +173,51 @@ namespace OISblocca.Core
         {
             try
             {
-                // Definizione XML per garantire l'avvio anche quando il PC portatile è alimentato a batteria
-                // (DisallowStartIfOnBatteries = false) e prevenire l'arresto a 72 ore (ExecutionTimeLimit = PT0S)
+                string cleanExePath = exePath.Trim('\"');
+
+                // Definizione XML per Task Scheduler:
+                // - Avvio con massimi privilegi al logon (senza prompt UAC o richiesta password)
+                // - Avvio abilitato sia su alimentazione a batteria che da rete elettrica
+                // - Nessun limite di tempo a 72 ore (ExecutionTimeLimit = PT0S)
+                // - NOTA: <Command> non deve contenere virgolette nello schema XML
                 string xml = $@"<?xml version=""1.0"" encoding=""UTF-16""?>
 <Task version=""1.2"" xmlns=""http://schemas.microsoft.com/windows/2004/02/mit/task"">
   <RegistrationInfo>
     <Description>OISblocca Avvio Automatico Elevato</Description>
   </RegistrationInfo>
+  <Triggers>
+    <LogonTrigger>
+      <Enabled>true</Enabled>
+    </LogonTrigger>
+  </Triggers>
   <Principals>
     <Principal id=""Author"">
-      <LogonType>InteractiveToken</LogonType>
+      <GroupId>S-1-5-32-544</GroupId>
       <RunLevel>HighestAvailable</RunLevel>
     </Principal>
   </Principals>
   <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
     <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
     <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
-    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <AllowHardTerminate>true</AllowHardTerminate>
+    <StartWhenAvailable>true</StartWhenAvailable>
+    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
+    <IdleSettings>
+      <StopOnIdleEnd>false</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <AllowStartOnDemand>true</AllowStartOnDemand>
+    <Enabled>true</Enabled>
+    <Hidden>false</Hidden>
+    <RunOnlyIfIdle>false</RunOnlyIfIdle>
+    <WakeToRun>false</WakeToRun>
     <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
+    <Priority>7</Priority>
   </Settings>
-  <Triggers>
-    <LogonTrigger />
-  </Triggers>
   <Actions Context=""Author"">
     <Exec>
-      <Command>""{exePath}""</Command>
+      <Command>{cleanExePath}</Command>
       <Arguments>--tray</Arguments>
     </Exec>
   </Actions>
@@ -189,27 +238,27 @@ namespace OISblocca.Core
                 using var proc = Process.Start(psi);
                 proc?.WaitForExit(3000);
 
+                bool success = (proc != null && proc.ExitCode == 0);
                 try { File.Delete(tempXml); } catch { }
-            }
-            catch
-            {
-                try
+
+                // Fallback da riga di comando diretta qualora l'importazione XML non sia andata a buon fine
+                if (!success)
                 {
-                    var psi = new ProcessStartInfo
+                    var fallbackPsi = new ProcessStartInfo
                     {
                         FileName = "schtasks.exe",
-                        Arguments = $"/create /tn \"{TaskName}\" /tr \"'{exePath}' --tray\" /sc onlogon /rl highest /f",
+                        Arguments = $"/create /tn \"{TaskName}\" /tr \"\\\"{cleanExePath}\\\" --tray\" /sc onlogon /rl highest /f",
                         UseShellExecute = false,
                         CreateNoWindow = true,
                         RedirectStandardOutput = true,
                         RedirectStandardError = true
                     };
-                    using var proc = Process.Start(psi);
-                    proc?.WaitForExit(3000);
+                    using var fallbackProc = Process.Start(fallbackPsi);
+                    fallbackProc?.WaitForExit(3000);
                 }
-                catch
-                {
-                }
+            }
+            catch
+            {
             }
         }
 

@@ -272,6 +272,16 @@ namespace OISblocca
             }
         }
 
+        public static bool IsSessionEnding { get; private set; }
+
+        protected override void OnSessionEnding(SessionEndingCancelEventArgs e)
+        {
+            base.OnSessionEnding(e);
+            IsSessionEnding = true;
+            // Non impedire mai la chiusura durante il riavvio o arresto di Windows
+            e.Cancel = false;
+        }
+
         protected override void OnExit(ExitEventArgs e)
         {
             try

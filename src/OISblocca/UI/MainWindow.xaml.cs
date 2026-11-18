@@ -39,6 +39,10 @@ namespace OISblocca.UI
         private const uint MSGFLT_ADD = 1;
         private const uint MSGFLT_ALLOW = 1;
 
+        private const uint WM_QUERYENDSESSION = 0x0011;
+        private const uint WM_ENDSESSION = 0x0016;
+        private bool _isSystemShuttingDown = false;
+
         private uint _wmTaskbarCreated;
         private IntPtr _windowHandle = IntPtr.Zero;
 
@@ -279,6 +283,13 @@ namespace OISblocca.UI
             {
                 // explorer.exe ha ricreato la barra delle applicazioni (crash o riavvio shell): ripristina l'icona
                 RestoreTrayIcon();
+            }
+            else if ((uint)msg == WM_QUERYENDSESSION || (uint)msg == WM_ENDSESSION)
+            {
+                // Rilevato riavvio, arresto o disconnessione di Windows: consenti la chiusura pulita
+                _isSystemShuttingDown = true;
+                handled = true;
+                return (IntPtr)1;
             }
             return IntPtr.Zero;
         }
@@ -644,7 +655,23 @@ namespace OISblocca.UI
 
         private void MainWindow_Closing(object? sender, System.ComponentModel.CancelEventArgs e)
         {
-            // Minimizza nella System Tray anziché chiudere
+            if (_isSystemShuttingDown || App.IsSessionEnding)
+            {
+                // Consenti la chiusura pulita durante il riavvio o arresto di Windows (evita che il processo venga killato)
+                try
+                {
+                    _probeService?.Dispose();
+                    if (_notifyIcon != null)
+                    {
+                        _notifyIcon.Visible = false;
+                        _notifyIcon.Dispose();
+                    }
+                }
+                catch { }
+                return;
+            }
+
+            // Durante il normale utilizzo: minimizza nella System Tray anziché chiudere
             e.Cancel = true;
             this.Hide();
             try

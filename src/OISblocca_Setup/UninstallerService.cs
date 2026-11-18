@@ -86,9 +86,18 @@ namespace OISblocca_Setup
 
             try
             {
-                // 2. HKCU Run
-                using var runKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
-                runKey?.DeleteValue("OISblocca", false);
+                // 2. Bonifica chiavi Run e impostazioni
+                using (var runKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+                {
+                    runKey?.DeleteValue("OISblocca", false);
+                }
+
+                using (var hklmRun = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+                {
+                    hklmRun?.DeleteValue("OISblocca", false);
+                }
+
+                Registry.CurrentUser.DeleteSubKeyTree(@"Software\OISblocca", false);
             }
             catch
             {

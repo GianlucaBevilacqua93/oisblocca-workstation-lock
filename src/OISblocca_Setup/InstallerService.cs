@@ -180,36 +180,70 @@ namespace OISblocca_Setup
         {
             try
             {
-                // 1. HKCU Run
-                using (var runKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
-                {
-                    runKey?.SetValue("OISblocca", $"\"{targetExe}\" --tray");
-                }
+                string cleanExePath = targetExe.Trim('\"');
 
-                // 2. Windows Task Scheduler (onlogon con massimi privilegi e supporto a batteria)
+                // 1. Bonifica della chiave Run: non inserire eseguibili elevati in Run per evitare prompt UAC al riavvio
+                try
+                {
+                    using var runKey = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+                    runKey?.DeleteValue("OISblocca", false);
+                }
+                catch { }
+
+                try
+                {
+                    using var hklmRun = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true);
+                    hklmRun?.DeleteValue("OISblocca", false);
+                }
+                catch { }
+
+                // 2. Registra preferenza in Software\OISblocca
+                try
+                {
+                    using var settingsKey = Registry.CurrentUser.CreateSubKey(@"Software\OISblocca", true);
+                    settingsKey?.SetValue("StartWithWindows", 1, RegistryValueKind.DWord);
+                }
+                catch { }
+
+                // 3. Windows Task Scheduler: avvio automatico con massimi privilegi al logon (senza prompt UAC né password)
                 string xml = $@"<?xml version=""1.0"" encoding=""UTF-16""?>
 <Task version=""1.2"" xmlns=""http://schemas.microsoft.com/windows/2004/02/mit/task"">
   <RegistrationInfo>
     <Description>OISblocca Avvio Automatico Elevato</Description>
   </RegistrationInfo>
+  <Triggers>
+    <LogonTrigger>
+      <Enabled>true</Enabled>
+    </LogonTrigger>
+  </Triggers>
   <Principals>
     <Principal id=""Author"">
-      <LogonType>InteractiveToken</LogonType>
+      <GroupId>S-1-5-32-544</GroupId>
       <RunLevel>HighestAvailable</RunLevel>
     </Principal>
   </Principals>
   <Settings>
+    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
     <DisallowStartIfOnBatteries>false</DisallowStartIfOnBatteries>
     <StopIfGoingOnBatteries>false</StopIfGoingOnBatteries>
-    <MultipleInstancesPolicy>IgnoreNew</MultipleInstancesPolicy>
+    <AllowHardTerminate>true</AllowHardTerminate>
+    <StartWhenAvailable>true</StartWhenAvailable>
+    <RunOnlyIfNetworkAvailable>false</RunOnlyIfNetworkAvailable>
+    <IdleSettings>
+      <StopOnIdleEnd>false</StopOnIdleEnd>
+      <RestartOnIdle>false</RestartOnIdle>
+    </IdleSettings>
+    <AllowStartOnDemand>true</AllowStartOnDemand>
+    <Enabled>true</Enabled>
+    <Hidden>false</Hidden>
+    <RunOnlyIfIdle>false</RunOnlyIfIdle>
+    <WakeToRun>false</WakeToRun>
     <ExecutionTimeLimit>PT0S</ExecutionTimeLimit>
+    <Priority>7</Priority>
   </Settings>
-  <Triggers>
-    <LogonTrigger />
-  </Triggers>
   <Actions Context=""Author"">
     <Exec>
-      <Command>""{targetExe}""</Command>
+      <Command>{cleanExePath}</Command>
       <Arguments>--tray</Arguments>
     </Exec>
   </Actions>
@@ -230,7 +264,24 @@ namespace OISblocca_Setup
                 using var proc = Process.Start(psi);
                 proc?.WaitForExit(3000);
 
+                bool success = (proc != null && proc.ExitCode == 0);
                 try { File.Delete(tempXml); } catch { }
+
+                // Fallback da riga di comando diretta
+                if (!success)
+                {
+                    var fallbackPsi = new ProcessStartInfo
+                    {
+                        FileName = "schtasks.exe",
+                        Arguments = $"/create /tn \"OISblocca\" /tr \"\\\"{cleanExePath}\\\" --tray\" /sc onlogon /rl highest /f",
+                        UseShellExecute = false,
+                        CreateNoWindow = true,
+                        RedirectStandardOutput = true,
+                        RedirectStandardError = true
+                    };
+                    using var fallbackProc = Process.Start(fallbackPsi);
+                    fallbackProc?.WaitForExit(3000);
+                }
             }
             catch
             {
