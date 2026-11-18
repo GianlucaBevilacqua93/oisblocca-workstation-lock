@@ -3,7 +3,8 @@ Applicazione per windows per la gestione dei siti web consentiti e l'isolamento 
 
 > **applicazione open source per windows per l'isolamento controllato delle postazioni di laboratorio e la gestione dei siti web consentiti durante le gare delle olimpiadi di informatica a squadre. zero connessioni non autorizzate: protezione totale della rete.**
 
-[![Release](https://img.shields.io/badge/release-v2.0.0-blue.svg)](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases)
+[![Release](https://img.shields.io/badge/release-v2.0-blue.svg)](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)
+[![Download Setup](https://img.shields.io/badge/download-OISblocca__Setup.exe-brightgreen?logo=windows&logoColor=white)](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows%2010%20%7C%2011-0078D6.svg)](https://microsoft.com/windows)
 [![OIS Official](https://img.shields.io/badge/target-oisquadre.it-00E676.svg)](https://oisquadre.it)
@@ -18,6 +19,8 @@ parole chiave e argomenti github:
 ```
 
 **[🇮🇹 Italiano](#-italiano) | [🇬🇧 English](#-english)**
+
+> **[⬇️ Scarica OISblocca v2.0 per Windows (Release tag 2.0)](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)**
 
 ---
 
@@ -124,7 +127,7 @@ oisblocca-workstation-lock/
 
 ### Opzione A — Installazione guidata con setup (consigliata)
 
-1. scarica [`OISblocca_Setup.exe`](release/OISblocca_Setup.exe) dalla cartella `release/` o dalla sezione releases di GitHub
+1. scarica il programma di installazione [`OISblocca_Setup.exe`](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0) dalla [sezione release ufficiale di GitHub (tag 2.0)](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)
 2. avvia l'installer: installerà automaticamente l'applicazione nella directory predefinita `C:\Program Files\OISblocca`
 3. la procedura guidata provvede a:
    * copiare l'eseguibile e creare il modulo di disinstallazione (`Uninstall.exe`);
@@ -134,7 +137,7 @@ oisblocca-workstation-lock/
 
 ### Opzione B — Eseguibile portatile autonomo
 
-1. scarica l'eseguibile portatile [`OISblocca.exe`](release/OISblocca.exe)
+1. scarica l'eseguibile portatile [`OISblocca.exe`](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0) dalla [sezione release ufficiale di GitHub (tag 2.0)](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)
 2. avvia il file come amministratore (tasto destro ➔ *Esegui come amministratore*)
 3. l'applicazione si posizionerà nell'area di notifica con l'icona a scudo
 
@@ -249,6 +252,8 @@ i contributi da parte della comunità scolastica e degli sviluppatori open sourc
 
 ## 🇬🇧 English
 
+> **[⬇️ Download OISblocca v2.0 for Windows (Release tag 2.0)](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)**
+
 ### 🔒 Security and educational integrity
 
 > **complete network control during programming competitions.**
@@ -321,7 +326,7 @@ the objective is to ensure contest fairness by verifying that students can only 
 
 ### Option A — Setup wizard installation (recommended)
 
-1. download [`OISblocca_Setup.exe`](release/OISblocca_Setup.exe) from the `release/` folder or GitHub releases
+1. download [`OISblocca_Setup.exe`](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0) from the [official GitHub releases (tag 2.0)](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)
 2. run the setup: it installs the application into `C:\Program Files\OISblocca`
 3. the wizard:
    * copies the executable and creates the uninstaller (`Uninstall.exe`);
@@ -331,7 +336,7 @@ the objective is to ensure contest fairness by verifying that students can only 
 
 ### Option B — Portable standalone executable
 
-1. download [`OISblocca.exe`](release/OISblocca.exe)
+1. download [`OISblocca.exe`](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0) from the [official GitHub releases (tag 2.0)](https://github.com/GianlucaBevilacqua93/oisblocca-workstation-lock/releases/tag/2.0)
 2. run the executable as administrator (right-click ➔ *Run as administrator*)
 3. the shield icon will appear in the system tray
 
@@ -439,4 +444,3 @@ contributions from the educational and open source community are welcome:
 
 Distribuito sotto licenza **MIT**. Consulta il file [LICENSE](LICENSE) per i termini completi.  
 Distributed under the **MIT** License. See the [LICENSE](LICENSE) file for full terms.
-
